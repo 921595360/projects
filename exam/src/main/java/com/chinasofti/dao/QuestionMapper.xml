@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinasofti.dao.QuestionMapper">
+
+    <insert id="add">
+      insert into t_question values(null,#{title},#{answer},#{score},#{choose},0)
+    </insert>
+    
+    <select id="findAll" resultType="com.chinasofti.pojo.Question">
+    	select * from t_question 
+    	<!-- where节点，能自动添加where关键字并过滤条首个件中的and关键字 -->
+    	<where>
+	    	<!-- 在动态sql中， test属性中访问参数可直接使用参数名-->
+	    	<if test="title != null and title != ''">
+	    		and title like concat('%',#{title},'%')
+	    	</if>
+	    	
+	   		<if test="id != null">
+	    		and id = #{id}
+	    	</if>
+    	
+    	</where>
+		limit #{page.limitCount},#{page.pageSize}
+    </select>
+
+	<delete id="del">
+
+		delete from t_question where id in 
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			  #{id}
+		</foreach>
+
+	</delete>
+
+	<select id="findByExamId"  resultType="com.chinasofti.pojo.Question">
+		  select t2.* from t_exam_ques t1 LEFT JOIN t_question t2 on t1.ques_id=t2.id where t1.exam_id=#{examId}
+	</select>
+	<select id="findByExamIdAndType"  resultType="com.chinasofti.pojo.Question">
+		  select t2.* from t_exam_ques t1 LEFT JOIN t_question t2 on t1.ques_id=t2.id where t1.exam_id=#{examId} and t2.type=#{type}
+	</select>
+
+	<select id="getCount" resultType="int">
+		select count(0) from t_question
+		<where>
+			<!-- 在动态sql中， test属性中访问参数可直接使用参数名-->
+			<if test="title != null and title != ''">
+				and title like concat('%',#{title},'%')
+			</if>
+
+			<if test="id != null">
+				and id = #{id}
+			</if>
+
+		</where>
+	</select>
+
+</mapper>

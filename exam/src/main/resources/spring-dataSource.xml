@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		">
+
+
+    <!-- 加载properties文件 -->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+    <!-- 配置druid数据源 -->
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${url}"></property>
+        <property name="driverClassName" value="${driverClass}"></property>
+        <property name="username" value="${user}"></property>
+        <property name="password" value="${password}"></property>
+
+        <!-- 开启sql监控 -->
+        <property name="filters" value="stat"></property>
+        </bean>
+</beans>

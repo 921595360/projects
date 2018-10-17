@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinasofti.dao.ExamMapper">
+	 <resultMap id="examMap" type="com.chinasofti.pojo.Exam">
+        <result column="id" property="id"></result>
+        <result column="title" property="title"></result>
+        <result column="begin_time" property="beginTime"></result>
+        <result column="need_time" property="needTime"></result>
+    </resultMap>
+
+
+    <insert id="insert">
+      insert into t_exam values(null,#{title},#{beginTime},#{needTime})
+    </insert>
+    
+	<select id="findAll" resultMap="examMap">
+		select * from t_exam
+	</select>
+
+</mapper>
